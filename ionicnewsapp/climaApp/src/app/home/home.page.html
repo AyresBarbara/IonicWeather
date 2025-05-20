@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Clima Atual</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-input [(ngModel)]="city" placeholder="Digite a cidade"></ion-input>
+    <ion-button (click)="getWeather()">Buscar</ion-button>
+  </ion-item>
+
+  <div *ngIf="weatherData">
+    <h2>{{ weatherData.name }}</h2>
+    <p>{{ weatherData.weather[0].description }}</p>
+    <p>🌡️ Temperatura: {{ weatherData.main.temp }} °C</p>
+    <p>💧 Umidade: {{ weatherData.main.humidity }}%</p>
+    <p>🌬️ Vento: {{ weatherData.wind.speed }} m/s</p>
+  </div>
+
+  <div *ngIf="forecastData">
+    <h3>Previsão</h3>
+    <ion-list>
+      <ion-item *ngFor="let item of forecastData.list.slice(0, 5)">
+        <ion-label>
+          {{ item.dt_txt }} - {{ item.weather[0].description }} - {{ item.main.temp }}°C
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
