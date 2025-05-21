@@ -10,14 +10,19 @@
     <ion-button (click)="getWeather()">Buscar</ion-button>
   </ion-item>
 
-  <div *ngIf="weatherData">
-    <h2>{{ weatherData.name }}</h2>
+  <ion-card *ngIf="weatherData">
+    <ion-card-header>
+      <ion-card-title>{{ weatherData.name }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
     <p>{{ weatherData.weather[0].description }}</p>
     <p>🌡️ Temperatura: {{ weatherData.main.temp }} °C</p>
     <p>💧 Umidade: {{ weatherData.main.humidity }}%</p>
     <p>🌬️ Vento: {{ weatherData.wind.speed }} m/s</p>
     <ion-button (click)="adicionarFavorito()">💛 Favoritar</ion-button>
-  </div>
+    </ion-card-content>
+  </ion-card>
 
   <div *ngIf="forecastData">
     <h3>Previsão</h3>

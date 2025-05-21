@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { WeatherService } from '../services/weather.service';
 import { FavoritosService } from '../services/favoritos.service';
+import { HistoricoService } from '../services/historico.service';
 
 
 
@@ -17,26 +18,38 @@ export class HomePage {
   forecastData: any;
   favoritos: string[] = [];
   favoritosClima: { cidade: string, clima: any }[] = [];
+  historico: string[] = [];
 
   constructor(
     private weatherService: WeatherService,
-    private favoritosService: FavoritosService
+    private favoritosService: FavoritosService,
+    private historicoService: HistoricoService
   ) {}
 
-  ngOnInit() {
-    this.getWeather();
-    this.listarFavoritos();
+  async ngOnInit() {
+    await this.getWeather();
+    await this.listarFavoritos();
   }
 
-  getWeather() {
-    this.weatherService.getWeatherByCity(this.city).subscribe(data => {
-      this.weatherData = data;
-    });
-
-    this.weatherService.getForecastByCity(this.city).subscribe(data => {
-      this.forecastData = data;
-    });
+  async getWeather() {
+    if (!this.city) return;
+  
+    try {
+      this.weatherService.getWeatherByCity(this.city).subscribe(data => {
+        this.weatherData = data;
+      });
+  
+      this.weatherService.getForecastByCity(this.city).subscribe(data => {
+        this.forecastData = data;
+      });
+  
+      await this.historicoService.adicionarHistorico(this.city);
+      this.historico = await this.historicoService.getHistorico();
+    } catch (error) {
+      console.error('Erro ao buscar clima:', error);
+    }
   }
+  
   
   async adicionarFavorito() {
     await this.favoritosService.adicionarFavorito(this.city);
