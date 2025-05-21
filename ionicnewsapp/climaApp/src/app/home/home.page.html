@@ -16,6 +16,7 @@
     <p>🌡️ Temperatura: {{ weatherData.main.temp }} °C</p>
     <p>💧 Umidade: {{ weatherData.main.humidity }}%</p>
     <p>🌬️ Vento: {{ weatherData.wind.speed }} m/s</p>
+    <ion-button (click)="adicionarFavorito()">💛 Favoritar</ion-button>
   </div>
 
   <div *ngIf="forecastData">
@@ -23,9 +24,25 @@
     <ion-list>
       <ion-item *ngFor="let item of forecastData.list.slice(0, 5)">
         <ion-label>
-          {{ item.dt_txt }} - {{ item.weather[0].description }} - {{ item.main.temp }}°C
+          {{ item.main.temp }}°C - {{ item.weather[0].description }} - {{ item.dt_txt }}
         </ion-label>
       </ion-item>
     </ion-list>
   </div>
+
+  <div>
+  <ion-card *ngFor="let item of favoritosClima">
+    <ion-card-header>
+      <ion-card-title>{{ item.cidade }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Temperatura: {{ item.clima.main.temp }}°C</p>
+      <p>Clima: {{ item.clima.weather[0].description }}</p>
+      <ion-button color="danger" size="small" (click)="removerFavorito(item.cidade)">
+        Remover
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</div>
+  
 </ion-content>
