@@ -1,53 +1,65 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Clima Atual</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-item>
-    <ion-input [(ngModel)]="city" placeholder="Digite a cidade"></ion-input>
-    <ion-button (click)="getWeather()">Buscar</ion-button>
+<ion-content class="ion-padding" [style.background]="'#e3f2fd'">
+  <ion-item lines="none" class="search-bar">
+    <ion-input [(ngModel)]="city" placeholder="Digite a cidade" (keyup.enter)="getWeather()" type="text"></ion-input>
+    <ion-button (click)="getWeather()" fill="outline" color="white">Buscar</ion-button>
+    <ion-button (click)="buscarPorLocalizacao()" fill="solid" color="white">Minha Localização</ion-button>
   </ion-item>
 
-  <ion-card *ngIf="weatherData">
+  <ion-card *ngIf="weatherData" class="current-weather-card" style="color:white">
     <ion-card-header>
       <ion-card-title>{{ weatherData.name }}</ion-card-title>
     </ion-card-header>
 
-    <ion-card-content>
-    <p>{{ weatherData.weather[0].description }}</p>
-    <p>🌡️ Temperatura: {{ weatherData.main.temp }} °C</p>
-    <p>💧 Umidade: {{ weatherData.main.humidity }}%</p>
-    <p>🌬️ Vento: {{ weatherData.wind.speed }} m/s</p>
-    <ion-button (click)="adicionarFavorito()">💛 Favoritar</ion-button>
-    </ion-card-content>
-  </ion-card>
-
-  <div *ngIf="forecastData">
-    <h3>Previsão</h3>
-    <ion-list>
-      <ion-item *ngFor="let item of forecastData.list.slice(0, 5)">
-        <ion-label>
-          {{ item.main.temp }}°C - {{ item.weather[0].description }} - {{ item.dt_txt }}
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
-
-  <div>
-  <ion-card *ngFor="let item of favoritosClima">
-    <ion-card-header>
-      <ion-card-title>{{ item.cidade }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p>Temperatura: {{ item.clima.main.temp }}°C</p>
-      <p>Clima: {{ item.clima.weather[0].description }}</p>
-      <ion-button color="danger" size="small" (click)="removerFavorito(item.cidade)">
-        Remover
+    <ion-card-content class="current-weather-content">
+      <img
+        class="weather-icon"
+        src="https://openweathermap.org/img/wn/{{ weatherData.weather[0].icon }}@4x.png"
+        alt="{{ weatherData.weather[0].description }}"
+      />
+      <h2>{{ weatherData.weather[0].description }}</h2>
+      <p>🌡️ Temperatura: {{ weatherData.main.temp }} °C</p>
+      <p>💧 Umidade: {{ weatherData.main.humidity }}%</p>
+      <p>🌬️ Vento: {{ weatherData.wind.speed }} m/s</p>
+      <ion-button (click)="adicionarFavorito()" fill="clear" color="white">
+        💛 Favoritar
       </ion-button>
     </ion-card-content>
   </ion-card>
+
+  <div *ngIf="previsao24h.length">
+  <h2 style="color:black">Previsão para as próximas 24h</h2>
+
+  <div class="previsao-container">
+    <div *ngFor="let hora of previsao24h" class="previsao-card">
+      <p>{{ hora.date | date:'HH:mm' }}</p>
+      <img src="https://openweathermap.org/img/wn/{{ hora.icon }}@2x.png" alt="{{ hora.description }}">
+      <p>{{ hora.description }}</p>
+      <p>{{ hora.temp_min | number:'1.0-0' }}°C / {{ hora.temp_max | number:'1.0-0' }}°C</p>
+    </div>
+  </div>
 </div>
-  
+
+  <app-forecast-carousel *ngIf="previsaoPorDia.length" [forecast]="previsaoPorDia"></app-forecast-carousel>
+
+  <div *ngIf="favoritosClima.length" class="favorites-section" style="color:black">
+    <h3>Cidades Favoritas</h3>
+    <ion-list>
+      <ion-item *ngFor="let item of favoritosClima" lines="none" class="favorite-item">
+        <ion-label>
+          <h2>{{ item.cidade }}</h2>
+          <p>Temperatura: {{ item.clima.main.temp }}°C</p>
+          <p>Clima: {{ item.clima.weather[0].description }}</p>
+        </ion-label>
+        <ion-button color="white" fill="clear" size="small" (click)="removerFavorito(item.cidade)">
+          Remover
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

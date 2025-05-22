@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { WeatherService } from '../services/weather.service';
 import { FavoritosService } from '../services/favoritos.service';
 import { HistoricoService } from '../services/historico.service';
-
+import { Geolocation } from '@capacitor/geolocation';
 
 
 @Component({
@@ -19,6 +19,9 @@ export class HomePage {
   favoritos: string[] = [];
   favoritosClima: { cidade: string, clima: any }[] = [];
   historico: string[] = [];
+  previsaoPorDia: { date: string, temp_min: number, temp_max: number, icon: string, description: string }[] = [];
+  previsao24h: any[] = [];
+
 
   constructor(
     private weatherService: WeatherService,
@@ -41,6 +44,8 @@ export class HomePage {
   
       this.weatherService.getForecastByCity(this.city).subscribe(data => {
         this.forecastData = data;
+        this.processarPrevisaoPorDia(); 
+        this.processarPrevisao24h();
       });
   
       await this.historicoService.adicionarHistorico(this.city);
@@ -76,4 +81,84 @@ export class HomePage {
     return await this.favoritosService.isFavorito(this.city);
   }
 
+  async buscarPorLocalizacao() {
+    try {
+      const coordinates = await Geolocation.getCurrentPosition();
+      const { latitude, longitude } = coordinates.coords;
+  
+      // Busca o clima com base na latitude e longitude
+      this.weatherService.getWeatherByCoords(latitude, longitude).subscribe((data: any) => {
+        console.log(data); // debug útil para ver a resposta
+        this.weatherData = data;
+        this.city = data.name;  // atualiza o nome da cidade exibido
+        
+      });
+  
+      this.weatherService.getForecastByCoords(latitude, longitude).subscribe(data => {
+        this.forecastData = data;
+      });
+  
+      // Adiciona no histórico
+      await this.historicoService.adicionarHistorico(this.city);
+      this.historico = await this.historicoService.getHistorico();
+    } catch (error) {
+      console.error('Erro ao obter localização:', error);
+    }
+  }
+  
+  processarPrevisaoPorDia() {
+    if (!this.forecastData || !this.forecastData.list) return;
+  
+    const previsaoPorDiaMap = new Map<string, any>();
+  
+    this.forecastData.list.forEach((item: any) => {
+      const dataHora = new Date(item.dt * 1000); // converte timestamp para Date
+      const diaStr = dataHora.toISOString().slice(0, 10); // "YYYY-MM-DD"
+  
+      if (!previsaoPorDiaMap.has(diaStr)) {
+        previsaoPorDiaMap.set(diaStr, {
+          temp_min: item.main.temp_min,
+          temp_max: item.main.temp_max,
+          // para simplicidade, pega o clima do primeiro item do dia
+          icon: item.weather[0].icon,
+          description: item.weather[0].description,
+          count: 1
+        });
+      } else {
+        const diaData = previsaoPorDiaMap.get(diaStr);
+        // atualiza mín e máx
+        diaData.temp_min = Math.min(diaData.temp_min, item.main.temp_min);
+        diaData.temp_max = Math.max(diaData.temp_max, item.main.temp_max);
+        // para clima, poderia melhorar escolhendo o mais frequente, mas vamos deixar o primeiro por enquanto
+        diaData.count++;
+        previsaoPorDiaMap.set(diaStr, diaData);
+      }
+    });
+  
+    // Converte Map para array ordenado por data
+    this.previsaoPorDia = Array.from(previsaoPorDiaMap.entries()).map(([date, info]) => {
+      return {
+        date,
+        temp_min: info.temp_min,
+        temp_max: info.temp_max,
+        icon: info.icon,
+        description: info.description
+      };
+    }).sort((a, b) => (a.date > b.date ? 1 : -1));
+  }
+
+  processarPrevisao24h() {
+    if (!this.forecastData || !this.forecastData.list) return;
+  
+    // Pega os próximos 8 blocos de 3h, totalizando 24h
+    this.previsao24h = this.forecastData.list.slice(0, 8).map((item: any) => ({
+      date: item.dt_txt,
+      temp_min: item.main.temp_min,
+      temp_max: item.main.temp_max,
+      icon: item.weather[0].icon,
+      description: item.weather[0].description
+    }));
+  }
+  
+  
 }

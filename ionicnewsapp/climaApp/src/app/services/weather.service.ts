@@ -22,4 +22,12 @@ export class WeatherService {
   getForecastByCity(city: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/forecast?q=${city}&appid=${this.apiKey}&units=metric&lang=pt_br`);
   }
+  getWeatherByCoords(lat: number, lon: number) {
+    return this.http.get(`${this.apiUrl}/weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric&lang=pt_br`);
+  }
+  
+  getForecastByCoords(lat: number, lon: number) {
+    return this.http.get(`${this.apiUrl}/forecast?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric&lang=pt_br`);
+  }
+  
 }

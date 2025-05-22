@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
+import { ForecastCarouselComponent } from '../forecast-carousel/forecast-carousel.component';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { HomePageRoutingModule } from './home-routing.module';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
+    ForecastCarouselComponent,
   ],
   declarations: [HomePage]
 })

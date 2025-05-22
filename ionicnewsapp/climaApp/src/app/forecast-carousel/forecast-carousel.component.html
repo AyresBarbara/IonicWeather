@@ -1,0 +1,10 @@
+<h2 style="color:black">Previsão da Semana</h2>
+
+<div class="carousel-container">
+  <div class="forecast-card" *ngFor="let dia of forecast">
+    <p>{{ formatarData(dia.date) }}</p>
+    <img src="https://openweathermap.org/img/wn/{{ dia.icon }}@2x.png" alt="{{ dia.description }}">
+    <p>{{ dia.description }}</p>
+    <p>Min: {{ dia.temp_min | number:'1.0-0' }}°C | Max: {{ dia.temp_max | number:'1.0-0' }}°C</p>
+  </div>
+</div>
