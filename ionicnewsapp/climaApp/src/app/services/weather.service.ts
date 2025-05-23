@@ -1,33 +1,50 @@
 // src/app/services/weather.service.ts
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of} from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { ForecastData, WeatherData } from '../models/weather.model';
+import { environment } from '../../environments/environment'; 
+import { CacheService } from './cache.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherService {
 
-  private apiKey = '137e120903116dc8411861ce9f3a0af4'; 
   private apiUrl = 'https://api.openweathermap.org/data/2.5';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cache: CacheService) {}
 
-  // Clima atual por cidade
-  getWeatherByCity(city: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/weather?q=${city}&appid=${this.apiKey}&units=metric&lang=pt_br`);
+  getWeatherByCity(city: string): Observable<WeatherData> {
+    const cacheKey = `weather_${city}`;
+
+    
+    const cached = this.cache.get<WeatherData>(cacheKey);
+    if (cached) {
+      return of(cached);
+    }
+
+    const url = `${this.apiUrl}/weather?q=${city}&appid=${environment.openWeatherApiKey}&lang=pt_br&units=metric`;
+    return this.http.get<WeatherData>(url).pipe(
+      tap(data => this.cache.set(cacheKey, data)) 
+    );
   }
 
-  // Previsão para os próximos 5 dias (a cada 3 horas)
-  getForecastByCity(city: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/forecast?q=${city}&appid=${this.apiKey}&units=metric&lang=pt_br`);
+  getForecastByCity(city: string): Observable<ForecastData> {
+    const url = `${this.apiUrl}/forecast?q=${city}&appid=${environment.openWeatherApiKey}&lang=pt_br`;
+    return this.http.get<ForecastData>(url);
   }
-  getWeatherByCoords(lat: number, lon: number) {
-    return this.http.get(`${this.apiUrl}/weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric&lang=pt_br`);
+
+  getWeatherByCoords(lat: number, lon: number): Observable<WeatherData> {
+    const url = `${this.apiUrl}/weather?lat=${lat}&lon=${lon}&appid=${environment.openWeatherApiKey}&lang=pt_br`;
+    return this.http.get<WeatherData>(url);
   }
-  
-  getForecastByCoords(lat: number, lon: number) {
-    return this.http.get(`${this.apiUrl}/forecast?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric&lang=pt_br`);
+
+  getForecastByCoords(lat: number, lon: number): Observable<ForecastData> {
+    const url = `${this.apiUrl}/forecast?lat=${lat}&lon=${lon}&appid=${environment.openWeatherApiKey}&lang=pt_br`;
+    return this.http.get<ForecastData>(url);
   }
   
 }

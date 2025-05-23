@@ -3,6 +3,9 @@ import { WeatherService } from '../services/weather.service';
 import { FavoritosService } from '../services/favoritos.service';
 import { HistoricoService } from '../services/historico.service';
 import { Geolocation } from '@capacitor/geolocation';
+import { Capacitor } from '@capacitor/core';
+import { WeatherData, ForecastData } from '../models/weather.model';
+
 
 
 @Component({
@@ -14,8 +17,8 @@ import { Geolocation } from '@capacitor/geolocation';
 export class HomePage {
 
   city = 'Recife';
-  weatherData: any;
-  forecastData: any;
+  weatherData: WeatherData | null = null;
+  forecastData: ForecastData | null = null;
   favoritos: string[] = [];
   favoritosClima: { cidade: string, clima: any }[] = [];
   historico: string[] = [];
@@ -40,6 +43,7 @@ export class HomePage {
     try {
       this.weatherService.getWeatherByCity(this.city).subscribe(data => {
         this.weatherData = data;
+        this.city = data.name;
       });
   
       this.weatherService.getForecastByCity(this.city).subscribe(data => {
@@ -83,28 +87,40 @@ export class HomePage {
 
   async buscarPorLocalizacao() {
     try {
-      const coordinates = await Geolocation.getCurrentPosition();
-      const { latitude, longitude } = coordinates.coords;
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
   
-      // Busca o clima com base na latitude e longitude
-      this.weatherService.getWeatherByCoords(latitude, longitude).subscribe((data: any) => {
-        console.log(data); // debug útil para ver a resposta
-        this.weatherData = data;
-        this.city = data.name;  // atualiza o nome da cidade exibido
-        
-      });
+            this.weatherService.getWeatherByCoords(latitude, longitude).subscribe((data: WeatherData) => {
+              this.weatherData = data;
+              this.city = data.name;
+            });
+            
+            this.weatherService.getForecastByCoords(latitude, longitude).subscribe((data: ForecastData) => {
+              this.forecastData = data;
+            });            
   
-      this.weatherService.getForecastByCoords(latitude, longitude).subscribe(data => {
-        this.forecastData = data;
-      });
-  
-      // Adiciona no histórico
-      await this.historicoService.adicionarHistorico(this.city);
-      this.historico = await this.historicoService.getHistorico();
+            await this.historicoService.adicionarHistorico(this.city);
+            this.historico = await this.historicoService.getHistorico();
+          },
+          (error) => {
+            console.error('Erro na geolocalização do navegador:', error);
+            alert(`Erro na geolocalização: ${error.message} (Código ${error.code})`);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 20000,
+            maximumAge: 0
+          }
+        );
+      } else {
+        alert('Geolocalização não suportada neste navegador.');
+      }
     } catch (error) {
-      console.error('Erro ao obter localização:', error);
+      console.error('Erro inesperado:', error);
     }
-  }
+  }  
   
   processarPrevisaoPorDia() {
     if (!this.forecastData || !this.forecastData.list) return;
