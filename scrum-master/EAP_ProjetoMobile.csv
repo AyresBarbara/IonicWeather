@@ -1,0 +1,36 @@
+﻿Tarefas,Data Inicio,Data Fim
+1. Desenvolvimento do App de Monitoramento Climático com Ionic,2025-05-07,2025-05-30
+1.1 Planejamento e Organização,2025-05-07,2025-05-09
+1.1.1 Definição do escopo e funcionalidades,2025-05-07,2025-05-08
+"1.1.2 Distribuição de papéis (Scrum Master, Gerente de Configuração, Documentadores, Desenvolvedores)",2025-05-07,2025-05-08
+"1.1.3 Configuração das ferramentas: Trello, Google Calendar, Repositório Gi",2025-05-08,2025-05-09
+1.2 Análise e Modelagem,2025-05-10,2025-05-13
+1.2.1 Modelagem de Casos de Uso,2025-05-10,2025-05-12
+1.2.2 Modelagem de Protótipos e Mockups,2025-05-10,2025-05-13
+1.2.3 Modelagem UML e ER,2025-05-12,2025-05-13
+1.2.4 Diagrama de Fluxo de Trabalho (Git Flow),2025-05-12,2025-05-13
+1.3 Configuração de Repositório,2025-05-14,2025-05-17
+1.3.1 Criação e configuração do repositório Git (público),2025-05-14,2025-05-15
+"1.3.2 Criação de arquivos padrão: README.md, LICENSE, .gitignore, CONTRIBUTING.md, TODO.md",2025-05-14,2025-05-15
+1.3.3 Definição da estrutura de pastas conforme especificado,2025-05-15,2025-05-17
+1.3.4 Elaboração do tutorial de fluxo de trabalho e ferramentas,2025-05-15,2025-05-17
+1.4 Desenvolvimento,2025-05-18,2025-05-24
+1.4.1 Configuração do ambiente de desenvolvimento,2025-05-18,2025-05-18
+1.4.2 Implementação de Autenticação de Usuário,2025-05-18,2025-05-24
+1.4.3 Integração com API de Clima (OpenWeatherMap),2025-05-18,2025-05-24
+1.4.4 Implementação da Busca de Cidades,2025-05-18,2025-05-24
+1.4.5 Implementação de Favoritos,2025-05-18,2025-05-24
+1.4.6 Implementação de Geolocalização via GPS,2025-05-18,2025-05-24
+1.4.7 Implementação de Notificações Push,2025-05-18,2025-05-24
+1.4.8 Implementação de Cache Local,2025-05-18,2025-05-24
+1.5 Testes e Validação,2025-05-25,2025-05-28
+1.5.1 Elaboração de Casos de Teste,2025-05-25,2025-05-26
+1.5.2 Testes unitários,2025-05-26,2025-05-28
+1.5.3 Testes de integração e aceitação,2025-05-26,2025-05-28
+1.5.4 Ajustes e correções,2025-05-26,2025-05-28
+1.6 Documentação e Apresentação,2025-05-27,2025-05-30
+1.6.1 Elaboração da documentação técnica e de usuário,2025-05-27,2025-05-29
+1.6.2 Elaboração da planilha de custos,2025-05-27,2025-05-30
+1.6.3 Elaboração dos slides da apresentação (PDF),2025-05-29,2025-05-30
+1.6.4 Demonstração do uso (mínimo de 10 telas),2025-05-27,2025-05-30
+1.6.5 Lições aprendidas,2025-05-29,2025-05-30
