@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  openWeatherApiKey: '137e120903116dc8411861ce9f3a0af4',
+  openWeatherApiKey: '5fc5ddf8aa92a426e89a8e135ba9f357',
   firebaseConfig : {
     apiKey: "AIzaSyB6alfj5LwpqqWN9vW7sUWTWizcjFTw-kI",
     authDomain: "climaappfirebase.firebaseapp.com",

@@ -12,15 +12,33 @@ export class AuthService {
     this.user$ = this.afAuth.authState;
   }
 
-  login(email: string, password: string): Promise<any> {
-    return this.afAuth.signInWithEmailAndPassword(email, password);
+  async login(email: string, senha: string): Promise<boolean> {
+    try {
+      await this.afAuth.signInWithEmailAndPassword(email, senha);
+      return true;
+    } catch (error) {
+      console.error('Login error:', error);
+      return false;
+    }
   }
 
-  register(email: string, password: string): Promise<any> {
-    return this.afAuth.createUserWithEmailAndPassword(email, password);
+  async registrar(email: string, senha: string): Promise<boolean> {
+    try {
+      await this.afAuth.createUserWithEmailAndPassword(email, senha);
+      return true;
+    } catch (error) {
+      console.error('Cadastro error:', error);
+      return false;
+    }
   }
 
   logout(): Promise<void> {
     return this.afAuth.signOut();
+  }
+  getUsuarioAtual() {
+    return this.afAuth.authState;
+  }
+  signup(email: string, password: string) {
+    return this.afAuth.createUserWithEmailAndPassword(email, password);
   }
 }

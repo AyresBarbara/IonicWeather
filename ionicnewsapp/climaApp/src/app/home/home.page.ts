@@ -5,6 +5,9 @@ import { HistoricoService } from '../services/historico.service';
 import { Geolocation } from '@capacitor/geolocation';
 import { Capacitor } from '@capacitor/core';
 import { WeatherData, ForecastData } from '../models/weather.model';
+import { LoadingController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 
 
@@ -24,12 +27,16 @@ export class HomePage {
   historico: string[] = [];
   previsaoPorDia: { date: string, temp_min: number, temp_max: number, icon: string, description: string }[] = [];
   previsao24h: any[] = [];
+  loading: HTMLIonLoadingElement | null = null;
 
 
   constructor(
     private weatherService: WeatherService,
     private favoritosService: FavoritosService,
-    private historicoService: HistoricoService
+    private loadingCtrl: LoadingController,
+    private historicoService: HistoricoService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -176,5 +183,8 @@ export class HomePage {
     }));
   }
   
-  
+  async logout() {
+    await this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 }
