@@ -19,18 +19,19 @@ export class WeatherService {
 
   getWeatherByCity(city: string): Observable<WeatherData> {
     const cacheKey = `weather_${city}`;
-
+    const cached = this.cache.getWithExpiry<WeatherData>(cacheKey);
     
-    const cached = this.cache.get<WeatherData>(cacheKey);
     if (cached) {
       return of(cached);
     }
-
+  
     const url = `${this.apiUrl}/weather?q=${city}&appid=${environment.openWeatherApiKey}&lang=pt_br&units=metric`;
+    
     return this.http.get<WeatherData>(url).pipe(
-      tap(data => this.cache.set(cacheKey, data)) 
+      tap(data => this.cache.setWithExpiry(cacheKey, data, 3600000)) // 1 hora de validade
     );
   }
+  
 
   getForecastByCity(city: string): Observable<ForecastData> {
     const url = `${this.apiUrl}/forecast?q=${city}&appid=${environment.openWeatherApiKey}&lang=pt_br`;
