@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { WeatherService } from '../services/weather.service';
 import { FavoritosService } from '../services/favoritos.service';
 import { HistoricoService } from '../services/historico.service';
-import { Geolocation } from '@capacitor/geolocation';
-import { Capacitor } from '@capacitor/core';
 import { WeatherData, ForecastData } from '../models/weather.model';
 import { LoadingController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
@@ -83,6 +81,7 @@ export class HomePage {
   }
   }
 
+
   async removerFavorito(cidade: string) {
     await this.favoritosService.removerFavorito(cidade);
     this.listarFavoritos();
@@ -93,41 +92,49 @@ export class HomePage {
   }
 
   async buscarPorLocalizacao() {
-    try {
-      if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            const { latitude, longitude } = position.coords;
-  
-            this.weatherService.getWeatherByCoords(latitude, longitude).subscribe((data: WeatherData) => {
-              this.weatherData = data;
-              this.city = data.name;
-            });
-            
-            this.weatherService.getForecastByCoords(latitude, longitude).subscribe((data: ForecastData) => {
-              this.forecastData = data;
-            });            
-  
-            await this.historicoService.adicionarHistorico(this.city);
-            this.historico = await this.historicoService.getHistorico();
-          },
-          (error) => {
-            console.error('Erro na geolocalização do navegador:', error);
-            alert(`Erro na geolocalização: ${error.message} (Código ${error.code})`);
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 20000,
-            maximumAge: 0
-          }
-        );
-      } else {
-        alert('Geolocalização não suportada neste navegador.');
-      }
-    } catch (error) {
-      console.error('Erro inesperado:', error);
+    if (!('geolocation' in navigator)) {
+      alert('Geolocalização não suportada neste navegador.');
+      return;
     }
-  }  
+  
+    const loading = await this.loadingCtrl.create({
+      message: 'Buscando localização...'
+    });
+    await loading.present();
+  
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        loading.dismiss();
+  
+        const { latitude, longitude } = position.coords;
+  
+        this.weatherService.getWeatherByCoords(latitude, longitude).subscribe(data => {
+          this.weatherData = data;
+          this.city = data.name;
+        });
+  
+        this.weatherService.getForecastByCoords(latitude, longitude).subscribe(data => {
+          this.forecastData = data;
+          this.processarPrevisaoPorDia();
+          this.processarPrevisao24h();
+        });
+  
+        await this.historicoService.adicionarHistorico(this.city);
+        this.historico = await this.historicoService.getHistorico();
+      },
+      (error) => {
+        loading.dismiss();
+        console.error('Erro na geolocalização do navegador:', error);
+        alert(`Erro na geolocalização: ${error.message} (Código ${error.code})`);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 0
+      }
+    );
+  }
+  
   
   processarPrevisaoPorDia() {
     if (!this.forecastData || !this.forecastData.list) return;
