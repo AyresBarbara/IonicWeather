@@ -1,6 +1,6 @@
 # App de Monitoramento Climático com Ionic
 
-![Conceito Climático](./readme_images/weather_concept.png)
+![Conceito Climático](/ionicnewsdocs/readme_images/weather_concept.png)
 
 ## Descrição do Projeto
 
