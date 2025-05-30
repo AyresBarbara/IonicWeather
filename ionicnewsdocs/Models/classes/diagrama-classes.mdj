@@ -1,0 +1,377 @@
+{
+  "_type": "Project",
+  "name": "DiagramaServicos",
+  "ownedElements": [
+    {
+      "_type": "UMLModel",
+      "name": "Model",
+      "ownedElements": [
+        {
+          "_type": "UMLClass",
+          "name": "AuthService",
+          "attributes": [
+            {
+              "_type": "UMLAttribute",
+              "name": "afAuth",
+              "type": "AngularFireAuth",
+              "visibility": "private"
+            },
+            {
+              "_type": "UMLAttribute",
+              "name": "user$",
+              "type": "Observable<any>",
+              "visibility": "private"
+            }
+          ],
+          "operations": [
+            {
+              "_type": "UMLOperation",
+              "name": "login",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "name": "email",
+                  "type": "string"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "name": "senha",
+                  "type": "string"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Promise<boolean>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "registrar",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "name": "email",
+                  "type": "string"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "name": "senha",
+                  "type": "string"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Promise<boolean>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "logout",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Promise<void>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "getUsuarioAtual",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Observable<any>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "signup",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "name": "email",
+                  "type": "string"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "name": "password",
+                  "type": "string"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Promise<any>"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_type": "UMLClass",
+          "name": "HistoricoService",
+          "attributes": [
+            {
+              "_type": "UMLAttribute",
+              "name": "storage",
+              "type": "Storage",
+              "visibility": "private"
+            },
+            {
+              "_type": "UMLAttribute",
+              "name": "storageInicializado",
+              "type": "boolean",
+              "visibility": "private"
+            }
+          ],
+          "operations": [
+            {
+              "_type": "UMLOperation",
+              "name": "init",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Promise<void>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "adicionarHistorico",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "name": "cidade",
+                  "type": "string"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Promise<void>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "getHistorico",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Promise<string[]>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "limparHistorico",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Promise<void>"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_type": "UMLClass",
+          "name": "FavoritosService",
+          "attributes": [
+            {
+              "_type": "UMLAttribute",
+              "name": "storage",
+              "type": "Storage",
+              "visibility": "private"
+            },
+            {
+              "_type": "UMLAttribute",
+              "name": "storageInicializado",
+              "type": "boolean",
+              "visibility": "private"
+            }
+          ],
+          "operations": [
+            {
+              "_type": "UMLOperation",
+              "name": "init",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Promise<void>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "getFavoritos",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Promise<string[]>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "adicionarFavorito",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "name": "cidade",
+                  "type": "string"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Promise<void>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "removerFavorito",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "name": "cidade",
+                  "type": "string"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Promise<void>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "isFavorito",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "name": "cidade",
+                  "type": "string"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Promise<boolean>"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_type": "UMLClass",
+          "name": "WeatherService",
+          "attributes": [
+            {
+              "_type": "UMLAttribute",
+              "name": "http",
+              "type": "HttpClient",
+              "visibility": "private"
+            },
+            {
+              "_type": "UMLAttribute",
+              "name": "cache",
+              "type": "CacheService",
+              "visibility": "private"
+            },
+            {
+              "_type": "UMLAttribute",
+              "name": "apiUrl",
+              "type": "string",
+              "visibility": "private"
+            }
+          ],
+          "operations": [
+            {
+              "_type": "UMLOperation",
+              "name": "getWeatherByCity",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "name": "city",
+                  "type": "string"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Observable<WeatherData>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "getForecastByCity",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "name": "city",
+                  "type": "string"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Observable<ForecastData>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "getWeatherByCoords",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "name": "lat",
+                  "type": "number"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "name": "lon",
+                  "type": "number"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Observable<WeatherData>"
+                }
+              ]
+            },
+            {
+              "_type": "UMLOperation",
+              "name": "getForecastByCoords",
+              "parameters": [
+                {
+                  "_type": "UMLParameter",
+                  "name": "lat",
+                  "type": "number"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "name": "lon",
+                  "type": "number"
+                },
+                {
+                  "_type": "UMLParameter",
+                  "direction": "return",
+                  "type": "Observable<ForecastData>"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "extensions": []
+}
