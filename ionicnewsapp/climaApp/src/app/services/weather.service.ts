@@ -34,17 +34,17 @@ export class WeatherService {
   
 
   getForecastByCity(city: string): Observable<ForecastData> {
-    const url = `${this.apiUrl}/forecast?q=${city}&appid=${environment.openWeatherApiKey}&lang=pt_br`;
+    const url = `${this.apiUrl}/forecast?q=${city}&appid=${environment.openWeatherApiKey}&lang=pt_br&units=metric`;
     return this.http.get<ForecastData>(url);
   }
 
   getWeatherByCoords(lat: number, lon: number): Observable<WeatherData> {
-    const url = `${this.apiUrl}/weather?lat=${lat}&lon=${lon}&appid=${environment.openWeatherApiKey}&lang=pt_br`;
+    const url = `${this.apiUrl}/weather?lat=${lat}&lon=${lon}&appid=${environment.openWeatherApiKey}&lang=pt_br&units=metric`;
     return this.http.get<WeatherData>(url);
   }
 
   getForecastByCoords(lat: number, lon: number): Observable<ForecastData> {
-    const url = `${this.apiUrl}/forecast?lat=${lat}&lon=${lon}&appid=${environment.openWeatherApiKey}&lang=pt_br`;
+    const url = `${this.apiUrl}/forecast?lat=${lat}&lon=${lon}&appid=${environment.openWeatherApiKey}&lang=pt_br&units=metric`;
     return this.http.get<ForecastData>(url);
   }
   
