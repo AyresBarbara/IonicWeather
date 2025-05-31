@@ -66,7 +66,7 @@ Consulte o arquivo: [**CONTRIBUTING.md**](/ionicnewsdocs/CONTRIBUTING.md)
 ## Autores
 
 * Bárbara Fernanda Ayres da Silva
-* Eduardo dos Santos Lira
+* Eduardo Lira dos Santos
 * João Pedro Carneiro da Silva
 * Wilson Francisco do Nascimento
 
