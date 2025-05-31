@@ -36,10 +36,10 @@ Pronto para contribuir com código? Ótimo!
 2.  **Clone seu fork:** Baixe sua cópia para sua máquina local (`git clone URL_DO_SEU_FORK`).
 3.  **Crie uma Branch:** Crie uma nova branch para suas modificações (`git checkout -b nome-da-sua-branch`). Use nomes descritivos (ex: `feature/adiciona-grafico-historico` ou `fix/corrige-login-facebook`).
 4.  **Configure o Ambiente:** Certifique-se de que seu ambiente de desenvolvimento está configurado corretamente. Consulte o documento de definição de ferramentas para obter ajuda:
-    *   [**Definição de Ferramentas, Bibliotecas e Frameworks**](./ionicnewsdocs/tools_definition.pdf) *(Nota: Este arquivo será criado)*
+    *   [**Definição de Ferramentas, Bibliotecas e Frameworks**](./ionicnewsdocs/tools_definition.pdf)
 5.  **Faça suas Modificações:** Implemente sua funcionalidade ou correção de bug.
 6.  **Siga o Fluxo de Trabalho:** Utilize o fluxo de trabalho Git definido para o projeto. Consulte o tutorial para obter os comandos e o processo detalhado:
-    *   [**Tutorial de Fluxo de Trabalho Git**](./UseCase/workflow_tutorial.pdf) *(Nota: Este arquivo será criado)*
+    *   [**Tutorial de Fluxo de Trabalho Git**](./UseCase/workflow_tutorial.pdf)
 7.  **Teste suas Modificações:** Garanta que suas alterações não introduziram novos problemas e que a funcionalidade implementada/corrigida funciona como esperado.
 8.  **Commit suas Mudanças:** Faça commits claros e descritivos (`git commit -m "Adiciona funcionalidade X"`).
 9.  **Push para sua Branch:** Envie suas mudanças para o seu fork no GitHub/GitLab (`git push origin nome-da-sua-branch`).
